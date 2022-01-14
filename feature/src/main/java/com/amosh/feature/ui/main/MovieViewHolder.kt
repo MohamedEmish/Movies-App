@@ -29,8 +29,8 @@ class MovieViewHolder constructor(
                 ivImage.apply {
                     shapeAppearanceModel = binding.ivImage.shapeAppearanceModel
                         .toBuilder()
-                        .setTopRightCorner(CornerFamily.ROUNDED, 8f)
-                        .setTopLeftCorner(CornerFamily.ROUNDED, 8f)
+                        .setTopRightCorner(CornerFamily.ROUNDED, 36f)
+                        .setTopLeftCorner(CornerFamily.ROUNDED, 36f)
                         .build()
 
                     val imageUrl = "https://image.tmdb.org/t/p/w300${it.poster_path}"
