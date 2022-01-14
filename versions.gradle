@@ -1,0 +1,8 @@
+ext {
+    versionMajor = 1
+    versionMinor = 0
+    versionPatch = 0
+    compileSdk = 31
+    minSdk = 24
+    targetSdk = 30
+}
