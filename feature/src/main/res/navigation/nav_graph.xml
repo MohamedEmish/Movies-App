@@ -25,7 +25,7 @@
         android:label="fragment_detail"
         tools:layout="@layout/fragment_details">
         <argument
-            android:name="weather"
+            android:name="movie"
             android:defaultValue="@null"
             app:argType="com.amosh.feature.model.MovieUiModel"
             app:nullable="true" />
