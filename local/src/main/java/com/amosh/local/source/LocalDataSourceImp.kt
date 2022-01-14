@@ -43,7 +43,7 @@ class LocalDataSourceImp @Inject constructor(
     }
 
     override suspend fun getFavoriteMoviesItems(): List<MovieDTO> {
-        val movieLocalList = moviesDAO.getFavoriteMoviesItems()
+        val movieLocalList = moviesDAO.getMoviesItems()
         return movieMapper.fromList(movieLocalList)
     }
 

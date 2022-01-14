@@ -33,7 +33,6 @@ class MovieDomainUiMapper @Inject constructor() : Mapper<MovieEntity, MovieUiMod
             video = i?.video ?: false,
             vote_average = i?.vote_average ?: 0.0,
             vote_count = i?.vote_count ?: 0,
-            isFavorite = i?.isFavorite ?: false
         )
     }
 
@@ -63,7 +62,6 @@ class MovieDomainUiMapper @Inject constructor() : Mapper<MovieEntity, MovieUiMod
             video = o?.video ?: false,
             vote_average = o?.vote_average ?: 0.0,
             vote_count = o?.vote_count ?: 0,
-            isFavorite = o?.isFavorite ?: false
         )
     }
 

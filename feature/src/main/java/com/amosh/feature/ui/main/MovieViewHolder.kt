@@ -1,9 +1,11 @@
 package com.amosh.feature.ui.main
 
 import com.amosh.base.BaseViewHolder
+import com.amosh.feature.R
 import com.amosh.feature.databinding.RowMovieItemLayoutBinding
 import com.amosh.feature.model.MovieUiModel
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.shape.CornerFamily
 
 /**
@@ -34,6 +36,9 @@ class MovieViewHolder constructor(
                     val imageUrl = "https://image.tmdb.org/t/p/w300${it.poster_path}"
                     Glide.with(this)
                         .load(imageUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .error(R.drawable.ic_app_logo)
+                        .placeholder(R.drawable.ic_app_logo)
                         .into(this)
                 }
 

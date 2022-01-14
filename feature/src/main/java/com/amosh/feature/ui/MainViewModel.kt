@@ -8,10 +8,12 @@ import com.amosh.common.Resource
 import com.amosh.domain.entity.ListType
 import com.amosh.domain.entity.MovieEntity
 import com.amosh.domain.entity.SortBy
+import com.amosh.domain.useCase.AddToFavoriteUseCase
+import com.amosh.domain.useCase.GetFavoriteListUseCase
 import com.amosh.domain.useCase.GetMoviesListUseCase
+import com.amosh.domain.useCase.RemoveFromFavoriteUseCase
 import com.amosh.feature.ui.contract.MainContract
 import com.amosh.feature.model.MovieUiModel
-import com.amosh.feature.ui.main.MovieAdapter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
@@ -22,16 +24,24 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getMoviesListUseCase: GetMoviesListUseCase,
+    private val getFavoriteListUseCase: GetFavoriteListUseCase,
+    private val addToFavoriteUseCase: AddToFavoriteUseCase,
+    private val removeFromFavoriteUseCase: RemoveFromFavoriteUseCase,
     private val movieMapper: Mapper<MovieEntity, MovieUiModel>
 ) : BaseViewModel<MainContract.Event, MainContract.State, MainContract.Effect>() {
 
     private val listOfMovies: MutableList<MovieUiModel> = mutableListOf()
+    val favoritesList: MutableList<MovieUiModel> = mutableListOf()
 
     override fun createInitialState(): MainContract.State {
         return MainContract.State(
             movieState = MainContract.MovieState.Idle,
             selectedMovie = null
         )
+    }
+
+    init {
+        fetchFavoriteList()
     }
 
     override fun handleEvent(event: MainContract.Event) {
@@ -41,13 +51,49 @@ class MainViewModel @Inject constructor(
                 val item = event.id
                 setSelectedPost(movie = listOfMovies.find { movie -> movie.id == item })
             }
+            is MainContract.Event.OnAddToFavorites -> addToFavorites(event.movie)
+            is MainContract.Event.OnRemoveFromFavorites -> removeFromFavorite(event.movie)
         }
+    }
+    
+    /**
+     * Un favorite a movies
+     */
+    private fun removeFromFavorite(movie: MovieUiModel?) = viewModelScope.launch {
+        removeFromFavoriteUseCase.execute(movieMapper.to(movie))
+            .collect {
+                when (it) {
+                    is Resource.Loading -> Unit
+                    is Resource.Empty -> Unit
+                    is Resource.Error -> Unit
+                    is Resource.Success -> {
+                        fetchFavoriteList()
+                    }
+                }
+            }
+    }
+
+    /**
+     * Favorite a movies
+     */
+    private fun addToFavorites(movie: MovieUiModel?) = viewModelScope.launch {
+        addToFavoriteUseCase.execute(movieMapper.to(movie))
+            .collect {
+                when (it) {
+                    is Resource.Loading -> Unit
+                    is Resource.Empty -> Unit
+                    is Resource.Error -> Unit
+                    is Resource.Success -> {
+                        fetchFavoriteList()
+                    }
+                }
+            }
     }
 
     /**
      * Fetch movies
      */
-    private fun fetchMoviesList(type: ListType, sortBy: SortBy) = viewModelScope.launch {
+    private fun fetchMoviesList(type: ListType, sortBy: SortBy) =
         viewModelScope.launch {
             getMoviesListUseCase.execute(type)
                 .onStart { emit(Resource.Loading) }
@@ -84,7 +130,27 @@ class MainViewModel @Inject constructor(
                     }
                 }
         }
+
+
+    /**
+     * Fetch favorite movies
+     */
+    private fun fetchFavoriteList() = viewModelScope.launch {
+        getFavoriteListUseCase.execute(ListType.FAVORITES)
+            .collect {
+                when (it) {
+                    is Resource.Loading -> Unit
+                    is Resource.Empty -> Unit
+                    is Resource.Error -> Unit
+                    is Resource.Success -> {
+                        val moviesList = movieMapper.fromList(it.data)
+                        favoritesList.clear()
+                        favoritesList.addAll(moviesList)
+                    }
+                }
+            }
     }
+
 
     /**
      * Set selected post item

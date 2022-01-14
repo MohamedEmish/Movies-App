@@ -21,9 +21,6 @@ interface MoviesDAO {
     @Query("SELECT * FROM movies")
     suspend fun getMoviesItems(): List<MovieLocalModel>
 
-    @Query("SELECT * FROM movies WHERE isFavorite =:isFav ")
-    suspend fun getFavoriteMoviesItems(isFav: Boolean = true): List<MovieLocalModel>
-
     @Update
     suspend fun updateMovieItem(movie: MovieLocalModel): Int
 

@@ -45,8 +45,6 @@ class RepositoryImp @Inject constructor(
                     try {
                         // Get data from RemoteDataSource
                         val data = remoteDataSource.getMoviesList()
-                        // Save to local or update if exist
-                        localDataSource.addItems(data)
                         // Emit data
                         val resultList: MutableList<MovieEntity> = mutableListOf()
                         data.forEach {
@@ -54,6 +52,7 @@ class RepositoryImp @Inject constructor(
                         }
                         emit(Resource.Success(resultList))
                     } catch (ex: Exception) {
+                        emit(Resource.Error(ex))
                         // If remote request fails
                         try {
                             // Get data from LocalDataSource
@@ -70,6 +69,28 @@ class RepositoryImp @Inject constructor(
                         }
                     }
                 }
+            }
+        }
+    }
+
+    override suspend fun addMovieToFavorite(movie: MovieEntity): Flow<Resource<Long>> {
+        return flow {
+            try {
+                val result = localDataSource.addItem(movieMapper.to(movie))
+                emit(Resource.Success(result))
+            } catch (e: Exception) {
+                emit(Resource.Error(e))
+            }
+        }
+    }
+
+    override suspend fun removeMovieFromFavorite(movie: MovieEntity): Flow<Resource<Int>> {
+        return flow {
+            try {
+                val result = localDataSource.deleteItem(movieMapper.to(movie))
+                emit(Resource.Success(result))
+            } catch (e: Exception) {
+                emit(Resource.Error(e))
             }
         }
     }

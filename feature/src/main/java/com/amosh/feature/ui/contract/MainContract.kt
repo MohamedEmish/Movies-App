@@ -13,8 +13,10 @@ import com.amosh.feature.model.MovieUiModel
 class MainContract {
 
     sealed class Event : UiEvent {
-        data class OnFetchMoviesList(val type: ListType, val sortBy: SortBy): Event()
+        data class OnFetchMoviesList(val type: ListType, val sortBy: SortBy) : Event()
         data class OnFetchMoviesDetails(val id: Int) : Event()
+        data class OnRemoveFromFavorites(val movie: MovieUiModel?) : Event()
+        data class OnAddToFavorites(val movie: MovieUiModel?) : Event()
     }
 
     data class State(

@@ -82,7 +82,7 @@
                 tools:ignore="ContentDescription" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvOverView"
+                android:id="@+id/tvTagLine"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
@@ -93,6 +93,34 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rbRate"
+                tools:text="Spider man" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOriginalTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTagLine"
+                tools:text="Spider man" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOverView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvOriginalTitle"
                 tools:text="Spider man" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

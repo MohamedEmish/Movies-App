@@ -34,7 +34,6 @@ class MovieDataDomainMapper @Inject constructor() :
             vote_average = i?.vote_average ?: 0.0,
             vote_count = i?.vote_count ?: 0,
             poster_path = i?.poster_path ?: "",
-            isFavorite = i?.isFavorite ?: false
         )
     }
 
@@ -64,7 +63,6 @@ class MovieDataDomainMapper @Inject constructor() :
             vote_average = o?.vote_average ?: 0.0,
             vote_count = o?.vote_count ?: 0,
             poster_path = o?.poster_path ?: "",
-            isFavorite = o?.isFavorite ?: false
         )
     }
 }

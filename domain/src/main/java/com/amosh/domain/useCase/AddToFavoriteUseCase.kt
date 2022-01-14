@@ -1,7 +1,6 @@
 package com.amosh.domain.useCase
 
 import com.amosh.common.Resource
-import com.amosh.domain.entity.ListType
 import com.amosh.domain.entity.MovieEntity
 import com.amosh.domain.qualifiers.IoDispatcher
 import com.amosh.domain.repository.Repository
@@ -12,17 +11,21 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class GetMoviesListUseCase @Inject constructor(
+class AddToFavoriteUseCase @Inject constructor(
     private val repository: Repository,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
-) : BaseUseCase<List<MovieEntity>, ListType>() {
+) : BaseUseCase<Long, MovieEntity>() {
 
-    override suspend fun buildDetailsRequest(type: ListType?): Flow<Resource<List<MovieEntity>>> {
-        if (type == null) {
+    override suspend fun buildDetailsRequest(
+        movie: MovieEntity?
+    ): Flow<Resource<Long>> {
+        if (movie == null) {
             return flow {
-                emit(Resource.Error(Exception("id can not be null")))
+                emit(Resource.Error(Exception("movie can not be null")))
             }.flowOn(dispatcher)
         }
-        return repository.getMoviesList(type = type).flowOn(dispatcher)
+        return repository.addMovieToFavorite(
+            movie
+        ).flowOn(dispatcher)
     }
 }

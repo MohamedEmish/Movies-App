@@ -2,6 +2,7 @@ package com.amosh.feature.ui.main
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -90,8 +91,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                             val data = state.moviesList
                             adapter.submitList(data)
                             binding.emptyState.isVisible = data.isNullOrEmpty()
-                            binding.toolbar.isVisible = !data.isNullOrEmpty()
                             binding.loadingPb.isVisible = false
+                            binding.tvToolbar.text = when (selectedType){
+                                ListType.FAVORITES -> "Favorites"
+                                ListType.ALL -> "Movies"
+                            }
                         }
                     }
                 }
@@ -103,7 +107,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 viewModel.effect.collect {
                     when (it) {
                         is MainContract.Effect.ShowError -> {
-                            val msg = it.message
+                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                         }
                     }
                 }

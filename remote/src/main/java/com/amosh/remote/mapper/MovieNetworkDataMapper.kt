@@ -34,7 +34,6 @@ class MovieNetworkDataMapper @Inject constructor() :
             vote_average = i?.vote_average ?: 0.0,
             vote_count = i?.vote_count ?: 0,
             poster_path = i?.poster_path ?: "",
-            isFavorite = false
         )
     }
 

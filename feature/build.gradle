@@ -84,6 +84,6 @@ dependencies {
     testImplementation "app.cash.turbine:turbine:0.5.2"
 
     // Scalable Units
-    api 'com.intuit.sdp:sdp-android:1.0.6'
-    api 'com.intuit.ssp:ssp-android:1.0.6'
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    implementation 'com.intuit.ssp:ssp-android:1.0.6'
 }

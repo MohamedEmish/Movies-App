@@ -11,10 +11,10 @@ import kotlinx.coroutines.flow.flow
 abstract class BaseUseCase<Model, Params> {
 
     abstract suspend fun buildDetailsRequest(
-        type: ListType?
-    ): Flow<Resource<List<Model>>>
+        type: Params?
+    ): Flow<Resource<Model>>
 
-    suspend fun execute(type: ListType?): Flow<Resource<List<Model>>> {
+    suspend fun execute(type: Params?): Flow<Resource<Model>> {
         return try {
             buildDetailsRequest(type)
         } catch (exception: Exception) {
