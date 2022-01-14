@@ -14,10 +14,10 @@ import com.amosh.domain.entity.SortBy
 import com.amosh.feature.databinding.FragmentMainBinding
 import com.amosh.feature.ui.contract.MainContract
 import com.amosh.feature.ui.MainViewModel
+import com.amosh.feature.ui.filterSheet.FilterSheetFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-
 
 /**
  * Main Fragment
@@ -26,6 +26,10 @@ import kotlinx.coroutines.launch
 class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     private val viewModel: MainViewModel by activityViewModels()
+    private var filterSheet: FilterSheetFragment? = null
+    private var selectedType = ListType.ALL
+    private var selectedSort = SortBy.NONE
+
     private val adapter: MovieAdapter by lazy {
         MovieAdapter { movie ->
             viewModel.setEvent(
@@ -42,10 +46,31 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         get() = FragmentMainBinding::inflate
 
     override fun prepareView(savedInstanceState: Bundle?) {
-        binding.rvWeather.adapter = adapter
+        binding.rvMovies.adapter = adapter
         initObservers()
-        viewModel.setEvent(MainContract.Event.OnFetchMoviesList(ListType.ALL, SortBy.NONE))
+        getMoviesList()
+
+        binding.ivFilter.setOnClickListener {
+            filterSheet =
+                FilterSheetFragment.newInstance(
+                    object : FilterSheetFragment.OnActionsListener {
+                        override fun onDoneListener(type: ListType, sortBy: SortBy) {
+                            selectedSort = sortBy
+                            selectedType = type
+                            getMoviesList()
+                            filterSheet?.dismiss()
+                        }
+                    },
+                    selectedType,
+                    selectedSort
+                )
+            filterSheet?.show(parentFragmentManager, FilterSheetFragment.TAG)
+
+        }
     }
+
+    private fun getMoviesList() =
+        viewModel.setEvent(MainContract.Event.OnFetchMoviesList(selectedType, selectedSort))
 
     /**
      * Initialize Observers
@@ -65,6 +90,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                             val data = state.moviesList
                             adapter.submitList(data)
                             binding.emptyState.isVisible = data.isNullOrEmpty()
+                            binding.toolbar.isVisible = !data.isNullOrEmpty()
                             binding.loadingPb.isVisible = false
                         }
                     }

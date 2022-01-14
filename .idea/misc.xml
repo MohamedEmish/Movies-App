@@ -30,9 +30,11 @@
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2265625" />
         <entry key="feature/src/main/res/drawable/ic_app_logo.xml" value="0.39114583333333336" />
         <entry key="feature/src/main/res/drawable/ic_right.xml" value="0.39114583333333336" />
+        <entry key="feature/src/main/res/drawable/rounded_top_dialog.xml" value="0.39114583333333336" />
         <entry key="feature/src/main/res/drawable/splash_background.xml" value="0.39114583333333336" />
         <entry key="feature/src/main/res/layout/activity_main.xml" value="0.359375" />
         <entry key="feature/src/main/res/layout/fragment_details.xml" value="0.375" />
+        <entry key="feature/src/main/res/layout/fragment_filter_sheet.xml" value="0.375" />
         <entry key="feature/src/main/res/layout/fragment_main.xml" value="0.375" />
         <entry key="feature/src/main/res/layout/row_movie_item_layout.xml" value="0.375" />
       </map>

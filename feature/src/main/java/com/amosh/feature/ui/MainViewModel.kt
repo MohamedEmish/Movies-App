@@ -72,9 +72,9 @@ class MainViewModel @Inject constructor(
                                     movieState = MainContract.MovieState.Success(
                                         moviesList = when (sortBy) {
                                             SortBy.MOST_POPULAR -> listOfMovies.toList()
-                                                .sortedBy { movie -> movie.popularity }
+                                                .sortedBy { movie -> movie.popularity }.reversed()
                                             SortBy.HIGHEST_RATE -> listOfMovies.toList()
-                                                .sortedBy { movie -> movie.vote_average }
+                                                .sortedBy { movie -> movie.vote_average }.reversed()
                                             else -> listOfMovies.toList()
                                         }
                                     )
