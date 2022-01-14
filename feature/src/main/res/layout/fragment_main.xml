@@ -23,6 +23,39 @@
             app:spanCount="2"
             tools:listitem="@layout/row_movie_item_layout" />
 
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/emptyState"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_220sdp"
+                app:srcCompat="@drawable/ic_app_logo"
+                app:tint="@color/colorPrimary" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingStart="@dimen/_16sdp"
+                android:paddingEnd="@dimen/_16sdp"
+                android:text="No Data available,\n Please try again later"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_18ssp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
         <ProgressBar
             android:id="@+id/loading_pb"
             android:layout_width="wrap_content"
