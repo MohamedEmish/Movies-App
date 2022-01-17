@@ -17,6 +17,7 @@ class MainContract {
         data class OnFetchMoviesDetails(val id: Int) : Event()
         data class OnRemoveFromFavorites(val movie: MovieUiModel?) : Event()
         data class OnAddToFavorites(val movie: MovieUiModel?) : Event()
+        data class OnSortCurrentList(val type: ListType, val sort: SortBy) : Event()
     }
 
     data class State(

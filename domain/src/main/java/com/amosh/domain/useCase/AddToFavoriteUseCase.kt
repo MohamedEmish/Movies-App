@@ -17,15 +17,15 @@ class AddToFavoriteUseCase @Inject constructor(
 ) : BaseUseCase<Long, MovieEntity>() {
 
     override suspend fun buildDetailsRequest(
-        movie: MovieEntity?
+        params: MovieEntity?
     ): Flow<Resource<Long>> {
-        if (movie == null) {
+        if (params == null) {
             return flow {
                 emit(Resource.Error(Exception("movie can not be null")))
             }.flowOn(dispatcher)
         }
         return repository.addMovieToFavorite(
-            movie
+            params
         ).flowOn(dispatcher)
     }
 }

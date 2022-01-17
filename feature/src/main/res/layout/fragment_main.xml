@@ -37,7 +37,7 @@
                     android:textSize="@dimen/_14ssp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/ivFilter"
+                    app:layout_constraintEnd_toStartOf="@id/ivListType"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Favorites" />
@@ -53,6 +53,30 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_sort" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivListType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:background="?selectableItemBackground"
+                    android:padding="@dimen/_8sdp"
+                    android:tint="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/ivFilter"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_fav" />
+
+                <ProgressBar
+                    android:id="@+id/pbLoading"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@color/white"
+                    android:padding="@dimen/_4sdp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/ivFilter"
+                    app:layout_constraintEnd_toEndOf="@id/ivFilter"
+                    app:layout_constraintStart_toStartOf="@id/ivFilter"
+                    app:layout_constraintTop_toTopOf="@id/ivFilter" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>
@@ -104,15 +128,6 @@
                 tools:ignore="HardcodedText" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <ProgressBar
-            android:id="@+id/loading_pb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

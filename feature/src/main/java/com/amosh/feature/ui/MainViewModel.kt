@@ -3,8 +3,10 @@ package com.amosh.feature.ui
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.amosh.base.BaseViewModel
+import com.amosh.common.Constants
 import com.amosh.common.Mapper
 import com.amosh.common.Resource
+import com.amosh.common.addIfNotExist
 import com.amosh.domain.entity.ListType
 import com.amosh.domain.entity.MovieEntity
 import com.amosh.domain.entity.SortBy
@@ -32,6 +34,7 @@ class MainViewModel @Inject constructor(
 
     private val listOfMovies: MutableList<MovieUiModel> = mutableListOf()
     val favoritesList: MutableList<MovieUiModel> = mutableListOf()
+    var currentPage = 1
 
     override fun createInitialState(): MainContract.State {
         return MainContract.State(
@@ -53,9 +56,36 @@ class MainViewModel @Inject constructor(
             }
             is MainContract.Event.OnAddToFavorites -> addToFavorites(event.movie)
             is MainContract.Event.OnRemoveFromFavorites -> removeFromFavorite(event.movie)
+            is MainContract.Event.OnSortCurrentList -> sortCurrentList(event.type, event.sort)
         }
     }
-    
+
+    private fun sortCurrentList(type: ListType, sortBy: SortBy) {
+        setState {
+            copy(
+                movieState = MainContract.MovieState.Success(
+                    moviesList = when (sortBy) {
+                        SortBy.MOST_POPULAR ->
+                            when (type) {
+                                ListType.FAVORITES -> favoritesList
+                                else -> listOfMovies.toList()
+                            }.sortedBy { movie -> movie.popularity }
+                                .reversed()
+                        SortBy.HIGHEST_RATE -> when (type) {
+                            ListType.FAVORITES -> favoritesList
+                            else -> listOfMovies.toList()
+                        }.sortedBy { movie -> movie.vote_average }
+                            .reversed()
+                        else -> when (type) {
+                            ListType.FAVORITES -> favoritesList
+                            else -> listOfMovies.toList()
+                        }
+                    }
+                )
+            )
+        }
+    }
+
     /**
      * Un favorite a movies
      */
@@ -95,7 +125,12 @@ class MainViewModel @Inject constructor(
      */
     private fun fetchMoviesList(type: ListType, sortBy: SortBy) =
         viewModelScope.launch {
-            getMoviesListUseCase.execute(type)
+            getMoviesListUseCase.execute(
+                mapOf(
+                    Constants.TYPE to type.name,
+                    Constants.PAGE to currentPage.toString()
+                )
+            )
                 .onStart { emit(Resource.Loading) }
                 .collect {
                     when (it) {
@@ -110,18 +145,32 @@ class MainViewModel @Inject constructor(
                         }
                         is Resource.Success -> {
                             val moviesList = movieMapper.fromList(it.data)
-                            listOfMovies.clear()
-                            listOfMovies.addAll(moviesList)
+                            if (type == ListType.ALL) {
+                                currentPage += 1
+                                moviesList.forEach { movie ->
+                                    listOfMovies.addIfNotExist(movie)
+                                }
+                            }
 
                             setState {
                                 copy(
                                     movieState = MainContract.MovieState.Success(
                                         moviesList = when (sortBy) {
-                                            SortBy.MOST_POPULAR -> listOfMovies.toList()
-                                                .sortedBy { movie -> movie.popularity }.reversed()
-                                            SortBy.HIGHEST_RATE -> listOfMovies.toList()
-                                                .sortedBy { movie -> movie.vote_average }.reversed()
-                                            else -> listOfMovies.toList()
+                                            SortBy.MOST_POPULAR ->
+                                                when (type) {
+                                                    ListType.FAVORITES -> moviesList
+                                                    else -> listOfMovies.toList()
+                                                }.sortedBy { movie -> movie.popularity }
+                                                    .reversed()
+                                            SortBy.HIGHEST_RATE -> when (type) {
+                                                ListType.FAVORITES -> moviesList
+                                                else -> listOfMovies.toList()
+                                            }.sortedBy { movie -> movie.vote_average }
+                                                .reversed()
+                                            else -> when (type) {
+                                                ListType.FAVORITES -> moviesList
+                                                else -> listOfMovies.toList()
+                                            }
                                         }
                                     )
                                 )

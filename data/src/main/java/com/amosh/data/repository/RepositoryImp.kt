@@ -21,7 +21,8 @@ class RepositoryImp @Inject constructor(
 ) : Repository {
 
     override suspend fun getMoviesList(
-        type: ListType
+        type: ListType,
+        page: Int
     ): Flow<Resource<List<MovieEntity>>> {
         return flow {
             when (type) {
@@ -44,7 +45,8 @@ class RepositoryImp @Inject constructor(
                 ListType.ALL -> {
                     try {
                         // Get data from RemoteDataSource
-                        val data = remoteDataSource.getMoviesList()
+                        val data = remoteDataSource.getMoviesList(page)
+                        Log.d("Page number", page.toString())
                         // Emit data
                         val resultList: MutableList<MovieEntity> = mutableListOf()
                         data.forEach {

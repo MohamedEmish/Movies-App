@@ -19,7 +19,6 @@ class FilterSheetFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
 
     private lateinit var listener: OnActionsListener
-    private var type: ListType? = null
     private var sortBy: SortBy? = null
 
 
@@ -54,19 +53,12 @@ class FilterSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            rbAll.isChecked = type == ListType.ALL
-            rbFav.isChecked = type == ListType.FAVORITES
 
             rbHighestRate.isChecked = sortBy == SortBy.HIGHEST_RATE
             rbMostPopular.isChecked = sortBy == SortBy.MOST_POPULAR
             rbNone.isChecked = sortBy == SortBy.NONE
 
             btnDone.setOnClickListener {
-                val selectedType = when {
-                    rbFav.isChecked -> ListType.FAVORITES
-                    else -> ListType.ALL
-                }
-
                 val selectedSort = when {
                     rbHighestRate.isChecked -> SortBy.HIGHEST_RATE
                     rbMostPopular.isChecked -> SortBy.MOST_POPULAR
@@ -74,7 +66,6 @@ class FilterSheetFragment : BottomSheetDialogFragment() {
                 }
 
                 listener.onDoneListener(
-                    selectedType,
                     selectedSort
                 )
             }
@@ -82,7 +73,7 @@ class FilterSheetFragment : BottomSheetDialogFragment() {
     }
 
     interface OnActionsListener {
-        fun onDoneListener(type: ListType, sortBy: SortBy)
+        fun onDoneListener(sortBy: SortBy)
     }
 
     companion object {
@@ -91,12 +82,10 @@ class FilterSheetFragment : BottomSheetDialogFragment() {
         @JvmStatic
         fun newInstance(
             listener: OnActionsListener,
-            type: ListType?,
             sortBy: SortBy?,
         ): FilterSheetFragment {
             val fragment = FilterSheetFragment()
             fragment.listener = listener
-            fragment.type = type
             fragment.sortBy = sortBy
             return fragment
         }

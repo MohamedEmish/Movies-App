@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flow
 abstract class BaseUseCase<Model, Params> {
 
     abstract suspend fun buildDetailsRequest(
-        type: Params?
+        params: Params?
     ): Flow<Resource<Model>>
 
     suspend fun execute(type: Params?): Flow<Resource<Model>> {

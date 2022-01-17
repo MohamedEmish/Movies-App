@@ -6,5 +6,5 @@ import com.amosh.data.model.MovieDTO
  * Methods of Remote Data Source
  */
 interface RemoteDataSource {
-    suspend fun getMoviesList(): List<MovieDTO>
+    suspend fun getMoviesList(page: Int): List<MovieDTO>
 }

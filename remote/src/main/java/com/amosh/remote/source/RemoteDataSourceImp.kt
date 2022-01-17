@@ -13,8 +13,8 @@ class RemoteDataSourceImp @Inject constructor(
     private val movieMapper: Mapper<MovieNetworkResponse, MovieDTO>,
 ) : RemoteDataSource {
 
-    override suspend fun getMoviesList(): List<MovieDTO> {
-        val networkData = apiService.getMovieList()
+    override suspend fun getMoviesList(page: Int): List<MovieDTO> {
+        val networkData = apiService.getMovieList(page)
         val moviesList: MutableList<MovieDTO> = mutableListOf()
         networkData.results?.forEach {
             moviesList.add(movieMapper.from(it))

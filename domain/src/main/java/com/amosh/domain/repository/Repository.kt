@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
  * Methods of Repository
  */
 interface Repository {
-    suspend fun getMoviesList(type: ListType): Flow<Resource<List<MovieEntity>>>
+    suspend fun getMoviesList(type: ListType, page: Int): Flow<Resource<List<MovieEntity>>>
     suspend fun addMovieToFavorite(movie: MovieEntity): Flow<Resource<Long>>
     suspend fun removeMovieFromFavorite(movie: MovieEntity): Flow<Resource<Int>>
 }

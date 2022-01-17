@@ -17,15 +17,15 @@ class RemoveFromFavoriteUseCase @Inject constructor(
 ) : BaseUseCase<Int, MovieEntity>() {
 
     override suspend fun buildDetailsRequest(
-        movie: MovieEntity?
+        params: MovieEntity?
     ): Flow<Resource<Int>> {
-        if (movie == null) {
+        if (params == null) {
             return flow {
                 emit(Resource.Error(Exception("movie can not be null")))
             }.flowOn(dispatcher)
         }
         return repository.removeMovieFromFavorite(
-            movie
+            params
         ).flowOn(dispatcher)
     }
 }

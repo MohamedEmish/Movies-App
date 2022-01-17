@@ -16,7 +16,11 @@ class GetFavoriteListUseCase @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : BaseUseCase<List<MovieEntity>, ListType>() {
 
-    override suspend fun buildDetailsRequest(type: ListType?): Flow<Resource<List<MovieEntity>>> {
-        return repository.getMoviesList(ListType.FAVORITES).flowOn(dispatcher)
+    override suspend fun buildDetailsRequest(
+        params: ListType?
+    ): Flow<Resource<List<MovieEntity>>> {
+        return repository.getMoviesList(
+            ListType.FAVORITES, 1
+        ).flowOn(dispatcher)
     }
 }
