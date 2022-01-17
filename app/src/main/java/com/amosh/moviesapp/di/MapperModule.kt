@@ -24,22 +24,22 @@ abstract class MapperModule {
 
     //region Locale Mappers
     @Binds
-    abstract fun bindsWeatherLocalDataMapper(mapper : MovieLocalDataMapper) : Mapper<MovieLocalModel, MovieDTO>
+    abstract fun bindsMovieLocalDataMapper(mapper : MovieLocalDataMapper) : Mapper<MovieLocalModel, MovieDTO>
     //endregion
 
     //region Data Mappers
     @Binds
-    abstract fun bindsWeatherDataDomainMapper(mapper : MovieDataDomainMapper) : Mapper<MovieDTO, MovieEntity>
+    abstract fun bindsMovieDataDomainMapper(mapper : MovieDataDomainMapper) : Mapper<MovieDTO, MovieEntity>
     //endregion
 
     //region Presentation Mappers
     @Binds
-    abstract fun bindsWeatherDomainUiMapper(mapper : MovieDomainUiMapper) : Mapper<MovieEntity, MovieUiModel>
+    abstract fun bindsMovieDomainUiMapper(mapper : MovieDomainUiMapper) : Mapper<MovieEntity, MovieUiModel>
     //endregion
 
     //region Remote Mappers
     @Binds
-    abstract fun bindsWeatherNetworkDataMapper(mapper: MovieNetworkDataMapper): Mapper<MovieNetworkResponse, MovieDTO>
+    abstract fun bindsMovieNetworkDataMapper(mapper: MovieNetworkDataMapper): Mapper<MovieNetworkResponse, MovieDTO>
     //endregion
 
 }

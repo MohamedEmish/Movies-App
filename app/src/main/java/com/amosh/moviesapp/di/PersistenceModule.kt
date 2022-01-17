@@ -29,9 +29,9 @@ object PersistenceModule {
     }
 
     /**
-     * Provides [WeatherDAO] instance
+     * Provides [MovieDAO] instance
      */
     @Provides
     @Singleton
-    fun provideWeatherDAO(appDatabase: AppDatabase) = appDatabase.moviesDao()
+    fun provideMovieDAO(appDatabase: AppDatabase) = appDatabase.moviesDao()
 }

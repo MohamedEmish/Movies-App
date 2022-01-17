@@ -20,7 +20,7 @@ class MovieAdapter constructor(
     private val clickFunc: ((MovieUiModel?) -> Unit)? = null,
     private val fetchNext: (() -> Unit)? = null,
 ) : BaseRecyclerAdapter<MovieUiModel, RowMovieItemLayoutBinding, MovieAdapter.MovieViewHolder>(
-    WeatherItemDiffUtil()
+    MovieItemDiffUtil()
 ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -72,7 +72,7 @@ class MovieAdapter constructor(
     }
 }
 
-class WeatherItemDiffUtil : DiffUtil.ItemCallback<MovieUiModel>() {
+class MovieItemDiffUtil : DiffUtil.ItemCallback<MovieUiModel>() {
     override fun areItemsTheSame(oldItem: MovieUiModel, newItem: MovieUiModel): Boolean {
         return oldItem.id == newItem.id
     }

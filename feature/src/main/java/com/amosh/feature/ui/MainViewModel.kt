@@ -52,7 +52,7 @@ class MainViewModel @Inject constructor(
             is MainContract.Event.OnFetchMoviesList -> fetchMoviesList(event.type, event.sortBy)
             is MainContract.Event.OnFetchMoviesDetails -> {
                 val item = event.id
-                setSelectedPost(movie = listOfMovies.find { movie -> movie.id == item })
+                setSelectedMovie(movie = listOfMovies.find { movie -> movie.id == item })
             }
             is MainContract.Event.OnAddToFavorites -> addToFavorites(event.movie)
             is MainContract.Event.OnRemoveFromFavorites -> removeFromFavorite(event.movie)
@@ -202,9 +202,9 @@ class MainViewModel @Inject constructor(
 
 
     /**
-     * Set selected post item
+     * Set selected movie item
      */
-    private fun setSelectedPost(movie: MovieUiModel?) {
+    private fun setSelectedMovie(movie: MovieUiModel?) {
         // Set State
         setState { copy(selectedMovie = movie) }
     }
